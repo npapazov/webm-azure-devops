@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
+  repository: daerepository03.eur.ad.sag:4443/ccdevops/pcmsr
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
@@ -32,7 +32,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 5555
 
 ingress:
   enabled: false
