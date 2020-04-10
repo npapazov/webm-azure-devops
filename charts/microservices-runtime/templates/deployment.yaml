@@ -41,6 +41,21 @@ spec:
 #              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+      {{- if .Values.licenseFile }}
+      {{- range $key, $val := .Values.licenseFile }}
+          - name: licenses
+            mountPath: /opt/softwareag/IntegrationServer/config/{{ $key }}
+            subPath: {{ $key }}
+      {{- end }}
+      {{- end }}      
+      volumes:
+      {{- if .Values.licenseFile }}
+      - name: licenses
+        configMap: 
+          name: {{ include "microservices-runtime.fullname" . }}-license-config-map
+      {{- end }}
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

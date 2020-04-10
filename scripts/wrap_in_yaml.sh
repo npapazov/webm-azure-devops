@@ -60,7 +60,7 @@ fi
 
 
 echo "$2:" > $1.yaml
-echo "  $1: |-" >>$1.yaml
+echo "  `basename $1`: |-" >>$1.yaml
 while read line
 do
 echo "    "$line >> $1.yaml
