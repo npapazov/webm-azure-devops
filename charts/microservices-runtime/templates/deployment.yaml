@@ -29,7 +29,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
 #          livenessProbe:
 #            httpGet:
@@ -49,6 +49,13 @@ spec:
             subPath: {{ $key }}
       {{- end }}
       {{- end }}      
+          {{- if .Values.envVariables }}
+          env:
+          {{- range $key, $val := .Values.envVariables }}
+          - name: {{ $key }}
+            value: {{ $val }}   
+          {{- end }}
+          {{- end }}
       volumes:
       {{- if .Values.licenseFile }}
       - name: licenses
