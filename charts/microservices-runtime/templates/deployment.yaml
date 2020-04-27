@@ -43,11 +43,9 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
       {{- if .Values.licenseFile }}
-      {{- range $key, $val := .Values.licenseFile }}
           - name: licenses
-            mountPath: /opt/softwareag/IntegrationServer/config/{{ $key }}
-            subPath: {{ $key }}
-      {{- end }}
+            mountPath: /opt/softwareag/IntegrationServer/config/licenseKey.xml
+            subPath: licenseKey.xml
       {{- end }}      
           {{- if .Values.envVariables }}
           env:

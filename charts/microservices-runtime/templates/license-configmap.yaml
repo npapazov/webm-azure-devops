@@ -5,8 +5,6 @@ metadata:
   name:  {{ include "microservices-runtime.fullname" . }}-license-config-map
   namespace: {{ .Release.Namespace }}
 data:
-{{- range $key, $val := .Values.licenseFile }}
-  {{ $key }}: |-
-{{ $val | indent 4}}
-{{- end }}
-{{- end -}}
+  licenseKey.xml: |-
+{{ .Values.licenseFile | indent 4 }}
+{{ end }}
