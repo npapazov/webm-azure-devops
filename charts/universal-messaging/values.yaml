@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: store/softwareag/universalmessaging-server
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecret: "regcreds"
 nameOverride: ""
 fullnameOverride: ""
 
