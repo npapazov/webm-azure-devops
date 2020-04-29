@@ -21,6 +21,13 @@ envVariables:
   MYVAR: "testvalue"
 
 
+
+files:
+ users.txt: "/opt/softwareag/common/conf/"
+ init.sh: "/tmp/"
+
+
+
 nameOverride: ""
 fullnameOverride: ""
 

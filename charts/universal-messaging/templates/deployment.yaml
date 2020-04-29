@@ -42,8 +42,12 @@ spec:
             mountPath: /opt/softwareag/IntegrationServer/config/licenseKey.xml
             subPath: licenseKey.xml
       {{- end }}
-          {{- if .Values.envVariables }}
           env:
+          {{- if .Values.configURL }}
+          - name: UMconfigURL
+            value: {{ .Values.configURL }}
+          {{- end }}
+          {{- if .Values.envVariables }}
           {{- range $key, $val := .Values.envVariables }}
           - name: {{ $key }}
             value: {{ $val }}
