@@ -65,9 +65,9 @@ spec:
             subPath: filesLocations
       {{- end }}
           env:
-          {{- if .Values.configURL }}
+          {{- if .Values.externalFiles.configURL }}
           - name: UMconfigURL
-            value: {{ .Values.configURL }}
+            value: {{ .Values.externalFiles.configURL | quote }}
           {{- end }}
           {{- if .Values.envVariables }}
           {{- range $key, $val := .Values.envVariables }}

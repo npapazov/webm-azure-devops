@@ -15,9 +15,7 @@ imageCredentials.password: ""
 
 externalFiles:
   licenseFile: ""
-  licenseURL: ""
   configFile: ""
-  configURL: ""
 
 envVariables:
   MYVAR: "testvalue"

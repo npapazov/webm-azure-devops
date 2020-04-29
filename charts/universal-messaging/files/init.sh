@@ -1,13 +1,3 @@
-#downoad license file
-download_license(){
- 	echo Downloading license from $1
-	curl -L -o /opt/softwareag/license.txt $1
-}
-
-download_config(){
-	echo Downloding existing onfiguration from $1
-	curl -L -o /tmp/config.xml $1
-}
 import_configuration(){
   until	/opt/softwareag/UniversalMessaging/tools/runner/runUMTool.sh ImportRealmXML -rname=nsp://localhost:9000 -filename=/tmp/config.xml -importall=true; do sleep 10; done
 }
@@ -26,7 +16,6 @@ copy_external_files(){
                 cat /tmp/externalFilesLocations | while read line || [ -n "$line" ]; do echo $line; sh -c "cp /tmp/$line|| true" ; done
         fi
 }
-
 copy_files
 copy_external_files
 start_UM
