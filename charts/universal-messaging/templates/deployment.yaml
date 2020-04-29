@@ -42,6 +42,14 @@ spec:
             mountPath: /opt/softwareag/IntegrationServer/config/licenseKey.xml
             subPath: licenseKey.xml
       {{- end }}
+      {{- if .Values.files }}
+         {{ $values := .Values }}
+        {{ range $key, $val := .Values.files }}
+          - name: files-map
+            mountPath: {{ $val }}{{ $key }}
+            subPath: {{ $key }}
+        {{- end }}
+      {{- end }}
           env:
           {{- if .Values.configURL }}
           - name: UMconfigURL
@@ -100,4 +108,8 @@ spec:
         configMap:
           name: {{ include "universal-messaging.fullname" . }}-license-config-map
       {{- end }}
-
+      {{- if .Values.files }}
+      - name: files-map
+        configMap:
+          name: {{ include "universal-messaging.fullname" . }}-files-config-map
+      {{- end }}
