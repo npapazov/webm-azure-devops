@@ -20,59 +20,15 @@ spec:
       serviceAccountName: {{ include "universal-messaging.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      initContainers:
-        - name: {{ .Chart.Name }}-init
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: [ 'sh' ,  "/tmp/init.sh" ]
-          ports:
-            - name: nsp
-              containerPort: 9000
-              protocol: TCP
-          volumeMounts:
-          - name: data
-            mountPath: /opt/softwareag/UniversalMessaging/server/umserver/data
-          - name: logs
-            mountPath: /opt/softwareag/UniversalMessaging/server/umserver/logs
-          - name: configuration
-            mountPath: /opt/softwareag/common/conf
-      {{- if .Values.licenseFile }}
-          - name: external-files
-            mountPath: /opt/softwareag/IntegrationServer/config/licenseKey.xml
-            subPath: licenseKey.xml
-      {{- end }}
-      {{- if .Values.configFile }}
-          - name: external-files
-            mountPath: /tmp/config.xml
-            subPath: config.xml
-      {{- end }}
-      {{- if .Values.files }}
-         {{ $values := .Values }}
-        {{ range $key, $val := .Values.files }}
-          - name: files-map
-            mountPath: {{ $val }}{{ $key }}
-            subPath: {{ $key }}
-        {{- end }}
-      {{- end }}
-          env:
-          {{- if .Values.configURL }}
-          - name: UMconfigURL
-            value: {{ .Values.configURL }}
-          {{- end }}
-          {{- if .Values.envVariables }}
-          {{- range $key, $val := .Values.envVariables }}
-          - name: {{ $key }}
-            value: {{ $val }}
-          {{- end }}
-          {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: 
+          - sh
+          - /tmp/init.sh
           ports:
             - name: nsp
               containerPort: 9000
@@ -84,23 +40,29 @@ spec:
             mountPath: /opt/softwareag/UniversalMessaging/server/umserver/logs
           - name: configuration
             mountPath: /opt/softwareag/common/conf
-      {{- if .Values.licenseFile }}
+      {{- if .Values.externalFiles.licenseFile }}
           - name: external-files
-            mountPath: /opt/softwareag/IntegrationServer/config/licenseKey.xml
+            mountPath: /tmp/licenseKey.xml
             subPath: licenseKey.xml
       {{- end }}
-      {{- if .Values.configFile }}
+      {{- if .Values.externalFiles.configFile }}
           - name: external-files
             mountPath: /tmp/config.xml
             subPath: config.xml
       {{- end }}
+          - name: external-files
+            mountPath: /tmp/externalFilesLocations
+            subPath: externalFilesLocations
       {{- if .Values.files }}
          {{ $values := .Values }}
         {{ range $key, $val := .Values.files }}
           - name: files-map
-            mountPath: {{ $val }}{{ $key }}
+            mountPath: /tmp/{{ $key }}
             subPath: {{ $key }}
         {{- end }}
+          - name: files-map
+            mountPath: /tmp/filesLocations
+            subPath: filesLocations
       {{- end }}
           env:
           {{- if .Values.configURL }}

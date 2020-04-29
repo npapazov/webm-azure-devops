@@ -11,5 +11,9 @@ data:
   {{ $key }}: |-
 {{ $files.Get (printf "files/%s" $key) | indent 4}}
 {{- end }}
+  filesLocations: |-
+{{- range $key, $val := .Values.files }}
+    {{ $key }} {{ $val }}
+{{- end -}}
 
-{{ end }}
+{{ end -}}
