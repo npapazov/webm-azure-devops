@@ -20,6 +20,53 @@ spec:
       serviceAccountName: {{ include "universal-messaging.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: {{ .Chart.Name }}-init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [ 'sh' ,  "/tmp/init.sh" ]
+          ports:
+            - name: nsp
+              containerPort: 9000
+              protocol: TCP
+          volumeMounts:
+          - name: data
+            mountPath: /opt/softwareag/UniversalMessaging/server/umserver/data
+          - name: logs
+            mountPath: /opt/softwareag/UniversalMessaging/server/umserver/logs
+          - name: configuration
+            mountPath: /opt/softwareag/common/conf
+      {{- if .Values.licenseFile }}
+          - name: external-files
+            mountPath: /opt/softwareag/IntegrationServer/config/licenseKey.xml
+            subPath: licenseKey.xml
+      {{- end }}
+      {{- if .Values.configFile }}
+          - name: external-files
+            mountPath: /tmp/config.xml
+            subPath: config.xml
+      {{- end }}
+      {{- if .Values.files }}
+         {{ $values := .Values }}
+        {{ range $key, $val := .Values.files }}
+          - name: files-map
+            mountPath: {{ $val }}{{ $key }}
+            subPath: {{ $key }}
+        {{- end }}
+      {{- end }}
+          env:
+          {{- if .Values.configURL }}
+          - name: UMconfigURL
+            value: {{ .Values.configURL }}
+          {{- end }}
+          {{- if .Values.envVariables }}
+          {{- range $key, $val := .Values.envVariables }}
+          - name: {{ $key }}
+            value: {{ $val }}
+          {{- end }}
+          {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -38,9 +85,14 @@ spec:
           - name: configuration
             mountPath: /opt/softwareag/common/conf
       {{- if .Values.licenseFile }}
-          - name: licenses
+          - name: external-files
             mountPath: /opt/softwareag/IntegrationServer/config/licenseKey.xml
             subPath: licenseKey.xml
+      {{- end }}
+      {{- if .Values.configFile }}
+          - name: external-files
+            mountPath: /tmp/config.xml
+            subPath: config.xml
       {{- end }}
       {{- if .Values.files }}
          {{ $values := .Values }}
@@ -103,11 +155,9 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: {{ include "universal-messaging.fullname" . }}-data
-      {{- if .Values.licenseFile }}
-      - name: licenses
+      - name: external-files
         configMap:
-          name: {{ include "universal-messaging.fullname" . }}-license-config-map
-      {{- end }}
+          name: {{ include "universal-messaging.fullname" . }}-external-files-config-map
       {{- if .Values.files }}
       - name: files-map
         configMap:

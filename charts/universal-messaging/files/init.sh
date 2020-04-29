@@ -14,4 +14,3 @@ import_configuration(){
 start_UM(){
 	/bin/sh -c umstart.sh&	
 }
-
