@@ -1,5 +1,9 @@
 import_configuration(){
   until	/opt/softwareag/UniversalMessaging/tools/runner/runUMTool.sh ImportRealmXML -rname=nsp://localhost:9000 -filename=/tmp/config.xml -importall=true; do sleep 10; done
+
+/opt/softwareag/UniversalMessaging/tools/runner/runUMTool.sh ViewConnectionFactory -rname=nsp://localhost:9000 -factoryname=local_um > /tmp/templog 2>&1
+
+
 }
 start_UM(){
 	/bin/sh -c umstart.sh&	

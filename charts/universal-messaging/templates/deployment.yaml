@@ -42,8 +42,8 @@ spec:
             mountPath: /opt/softwareag/common/conf
       {{- if .Values.externalFiles.licenseFile }}
           - name: external-files
-            mountPath: /tmp/licenseKey.xml
-            subPath: licenseKey.xml
+            mountPath: /tmp/licence.xml
+            subPath: licence.xml
       {{- end }}
       {{- if .Values.externalFiles.configFile }}
           - name: external-files
