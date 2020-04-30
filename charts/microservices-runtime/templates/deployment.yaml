@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "microservices-runtime.fullname" . }}
+  labels:
+    {{- include "microservices-runtime.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "microservices-runtime.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "microservices-runtime.selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: {{ include "microservices-runtime.fullname" . }}-{{ .Values.imagePullSecret }}
+      serviceAccountName: {{ include "microservices-runtime.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+      {{- if .Values.licenseFile }}
+          - name: licenses
+            mountPath: /opt/softwareag/IntegrationServer/config/licenseKey.xml
+            subPath: licenseKey.xml
+      {{- end }}      
+          {{- if .Values.envVariables }}
+          env:
+          {{- range $key, $val := .Values.envVariables }}
+          - name: {{ $key }}
+            value: {{ $val }}   
+          {{- end }}
+          {{- end }}
+      volumes:
+      {{- if .Values.licenseFile }}
+      - name: licenses
+        configMap: 
+          name: {{ include "microservices-runtime.fullname" . }}-license-config-map
+      {{- end }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

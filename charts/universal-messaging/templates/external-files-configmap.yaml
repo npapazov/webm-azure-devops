@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  {{ include "universal-messaging.fullname" . }}-external-files-config-map
+  namespace: {{ .Release.Namespace }}
+data:
+{{- if .Values.externalFiles.licenseFile }}
+  licenseKey.xml: |-
+{{ .Values.externalFiles.licenseFile | indent 4 }}
+{{ end }}
+{{- if .Values.externalFiles.configFile }}
+  config.xml: |-
+{{ .Values.externalFiles.configFile | indent 4 }}
+{{ end }}
+  externalFilesLocations: |-
+    licenseKey.xml /opt/softwareag/
+    config.xml /tmp/
