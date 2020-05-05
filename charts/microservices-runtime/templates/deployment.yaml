@@ -19,12 +19,25 @@ spec:
       serviceAccountName: {{ include "microservices-runtime.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+#      initContainers:
+#        - name: donwloadpackage
+#          image: alpine
+#          command: 
+#          - sh
+#          - -c
+#          - cd /tmp/packages && wget https://github.com/npapazov/webm-azure-devops/raw/ysi/containers/microservices-runtime/data/AssetPackages/Packages/Fibonachi.zip && unzip Fibonachi.zip && rm -f Fibonachi.zip
+#          volumeMounts:
+#          - name: pkg-vol
+#            mountPath: "/tmp/packages"
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+          - sh
+          - /tmp/init.sh
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -40,23 +53,49 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-      {{- if .Values.licenseFile }}
+#          - name: pkg-vol
+#            mountPath: "/opt/softwareag/IntegrationServer/packages/"
+      {{- if .Values.externalFiles.licenseFile }}
           - name: licenses
             mountPath: /opt/softwareag/IntegrationServer/config/licenseKey.xml
             subPath: licenseKey.xml
+      {{- end }}
+      {{- if .Values.files }}
+         {{ $values := .Values }}
+        {{ range $key, $val := .Values.files }}
+          - name: files-map
+            mountPath: /tmp/{{ $key }}
+            subPath: {{ $key }}
+        {{- end }}
+          - name: files-map
+            mountPath: /tmp/filesLocations
+            subPath: filesLocations
       {{- end }}      
-          {{- if .Values.envVariables }}
           env:
+          {{- if eq .Values.autoDeploy true }}
+          - name: MSR_AUTODEPLOY_FLAG
+            value: "true"
+          - name: MSR_AUTODEPLOY_HOTDEPLOY_FLAG
+            value: "true"
+          {{- end }}
+          {{- if .Values.envVariables }}
           {{- range $key, $val := .Values.envVariables }}
           - name: {{ $key }}
             value: {{ $val }}   
           {{- end }}
           {{- end }}
       volumes:
-      {{- if .Values.licenseFile }}
+      - name: pkg-vol
+        emptyDir: {}
+      {{- if .Values.externalFiles.licenseFile }}
       - name: licenses
         configMap: 
           name: {{ include "microservices-runtime.fullname" . }}-license-config-map
+      {{- end }}
+      {{- if .Values.files }}
+      - name: files-map
+        configMap:
+          name: {{ include "microservices-runtime.fullname" . }}-files-config-map
       {{- end }}
 
       {{- with .Values.nodeSelector }}

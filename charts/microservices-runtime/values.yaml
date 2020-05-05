@@ -17,15 +17,22 @@ imageCredentials.password: ""
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-licenseFile: ""
-licenseURL: ""
+externalFiles:
+  licenseFile: ""
+  #licenseURL: ""
 envVariables:
   MSR_JDBC_URL: "jdbc:mysql://mysql:3306/webm" 
   MSR_JDBC_PASSWORD: "webm"
   MSR_JDBC_USER: "webm"
-  MSR_JNDI_PROVIDER_URL: "nsp://universal-messaging:9000"
-
-
+  MSR_JNDI_PROVIDER_URL: "nsp://um1-universal-messaging:9000"
+  JAVA_DEBUGGER_OPTS: "-Dcom.softwareag.um.jndi.cf.url.override=true"
+  #MSR_AUTODEPLOY_FLAG: "false"
+  #MSR_AUTODEPLOY_HOTDEPLOY_FLAG: "false"
+  MSR_PACKAGE_URLS: ""
+autoDeploy: false
+files:
+  init.sh: "/tmp"
+  application.properties: "/opt/softwareag/IntegrationServer"
 
 
 serviceAccount:
@@ -35,8 +42,8 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name:
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  fsGroup: 1724
 
 securityContext: {}
   # capabilities:
