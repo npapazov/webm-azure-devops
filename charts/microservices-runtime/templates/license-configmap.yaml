@@ -1,4 +1,4 @@
-{{- if .Values.licenseFile }}
+{{- if .Values.externalFiles.licenseFile }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

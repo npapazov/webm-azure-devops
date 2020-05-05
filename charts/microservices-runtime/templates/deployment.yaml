@@ -85,8 +85,6 @@ spec:
           {{- end }}
           {{- end }}
       volumes:
-      - name: pkg-vol
-        emptyDir: {}
       {{- if .Values.externalFiles.licenseFile }}
       - name: licenses
         configMap: 
