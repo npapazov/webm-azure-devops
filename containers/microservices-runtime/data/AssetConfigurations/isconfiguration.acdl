@@ -1,7 +1,7 @@
 <asset_composite xmlns="http://namespaces.softwareag.com/acdl/1.0" targetNamespace="http://namespaces.softwareag.com/webMethods/IS" name="isconfiguration" runtimeVersion="10.5.0.0">
   <implementation.generic type="isconfiguration" />
   <buildInfo name="BuildVersion" value="10.5" />
-  <buildInfo name="BuildTimestamp" value="2020-04-01T08:03:30" />
+  <buildInfo name="BuildTimestamp" value="2020-04-06T12:55:20" />
   <buildInfo name="MinimumTargetRuntimeVersion" value="10.5.0.0" />
   <property name="suspendTasksDuringDeploy" displayName="Suspend Tasks During Deployment">
     <value>none</value>
@@ -18,10 +18,10 @@
   <asset name="ISProperty.watt.server.compile" displayName="watt.server.compile">
     <implementation.generic type="isproperty" />
     <property name="watt.server.compile">
-      <value>/home/vmtest/sagmsr/jvm/jvm/bin/javac -classpath {0} -d {1} {2}</value>
+      <value>C:\SoftwareAGMSC10.5\jvm\jvm\bin\javac -classpath {0} -d {1} {2}</value>
     </property>
   </asset>
-  <asset name="Acl.test" displayName="test">
+  <asset name="Acl.testacl" displayName="testacl">
     <implementation.generic type="isacl" />
   </asset>
   <asset name="Port.WmRoot.Regular.5555" displayName="HTTPListener@5555">
@@ -75,10 +75,10 @@
       <value />
     </property>
     <property name="securityPrincipal" displayName="Security Principal">
-      <value />
+      <value>Administrator</value>
     </property>
     <property name="securityCredentials" displayName="Security Credentials" isSecure="true">
-      <value>{AES}aYrXC43dTWsDUHRWG5mhTA==</value>
+      <value>{AES}Y5IgMqjfvkgbg7p5VUZztw==</value>
     </property>
   </asset>
   <asset name="JMSAlias.DEFAULT_IS_JMS_CONNECTION" displayName="DEFAULT_IS_JMS_CONNECTION">
@@ -103,7 +103,7 @@
   <asset name="JMSAlias.PE_NONTRANSACTIONAL_ALIAS" displayName="PE_NONTRANSACTIONAL_ALIAS">
     <implementation.generic type="isjmsalias" />
     <property name="clientID" displayName="Connection Client ID">
-      <value>ISf4795281_6003_47b4_833a_e87fa95923eb</value>
+      <value>ISe5ec3480_6960_4603_b177_e2664fd2292e</value>
     </property>
     <property name="user" displayName="User">
       <value />
@@ -119,20 +119,43 @@
     </property>
     <dependsOn>IS:JNDIAlias.DEFAULT_IS_JNDI_PROVIDER</dependsOn>
   </asset>
+  <asset name="JDBCDriverAlias.DataDirect Connect JDBC MySQL Driver" displayName="DataDirect Connect JDBC MySQL Driver">
+    <implementation.generic type="isjdbcdriveralias" />
+  </asset>
   <asset name="JDBCDriverAlias.DataDirect Connect JDBC PostGreSQL Driver" displayName="DataDirect Connect JDBC PostGreSQL Driver">
     <implementation.generic type="isjdbcdriveralias" />
   </asset>
   <asset name="JDBCDriverAlias.MySQL Database Java Connector Driver" displayName="MySQL Database Java Connector Driver">
     <implementation.generic type="isjdbcdriveralias" />
   </asset>
-  <asset name="JDBCDriverAlias.DataDirect Connect JDBC MySQL Driver" displayName="DataDirect Connect JDBC MySQL Driver">
-    <implementation.generic type="isjdbcdriveralias" />
+  <asset name="JDBCPoolAlias.default" displayName="default">
+    <implementation.generic type="isjdbcpoolalias" />
+    <property name="url" displayName="Database URL">
+      <value>jdbc:mysql://vmbgdck02:3306/webm</value>
+    </property>
+    <property name="uid" displayName="Database User">
+      <value>webm</value>
+    </property>
+    <property name="pwd" displayName="Database User Password" isSecure="true">
+      <value>{AES}VP+D3nnw3YAh14sI22vVug==</value>
+    </property>
+    <dependsOn>IS:JDBCDriverAlias.MySQL Database Java Connector Driver</dependsOn>
   </asset>
-  <asset name="JDBCFunctionalAlias.Xref" displayName="Xref">
+  <asset name="JDBCFunctionalAlias.Adapters" displayName="Adapters">
     <implementation.generic type="isjdbcfunctionalalias" />
   </asset>
   <asset name="JDBCFunctionalAlias.CentralUsers" displayName="CentralUsers">
     <implementation.generic type="isjdbcfunctionalalias" />
+  </asset>
+  <asset name="JDBCFunctionalAlias.DocumentHistory" displayName="DocumentHistory">
+    <implementation.generic type="isjdbcfunctionalalias" />
+  </asset>
+  <asset name="JDBCFunctionalAlias.ISCoreAudit" displayName="ISCoreAudit">
+    <implementation.generic type="isjdbcfunctionalalias" />
+  </asset>
+  <asset name="JDBCFunctionalAlias.ISInternal" displayName="ISInternal">
+    <implementation.generic type="isjdbcfunctionalalias" />
+    <dependsOn>IS:JDBCPoolAlias.default</dependsOn>
   </asset>
   <asset name="JDBCFunctionalAlias.MobileSupport" displayName="MobileSupport">
     <implementation.generic type="isjdbcfunctionalalias" />
@@ -140,23 +163,15 @@
   <asset name="JDBCFunctionalAlias.ProcessAudit" displayName="ProcessAudit">
     <implementation.generic type="isjdbcfunctionalalias" />
   </asset>
-  <asset name="JDBCFunctionalAlias.ISInternal" displayName="ISInternal">
-    <implementation.generic type="isjdbcfunctionalalias" />
-  </asset>
-  <asset name="JDBCFunctionalAlias.ISCoreAudit" displayName="ISCoreAudit">
+  <asset name="JDBCFunctionalAlias.ProcessEngine" displayName="ProcessEngine">
     <implementation.generic type="isjdbcfunctionalalias" />
   </asset>
   <asset name="JDBCFunctionalAlias.TN" displayName="TN">
     <implementation.generic type="isjdbcfunctionalalias" />
   </asset>
-  <asset name="JDBCFunctionalAlias.Adapters" displayName="Adapters">
+  <asset name="JDBCFunctionalAlias.Xref" displayName="Xref">
     <implementation.generic type="isjdbcfunctionalalias" />
-  </asset>
-  <asset name="JDBCFunctionalAlias.DocumentHistory" displayName="DocumentHistory">
-    <implementation.generic type="isjdbcfunctionalalias" />
-  </asset>
-  <asset name="JDBCFunctionalAlias.ProcessEngine" displayName="ProcessEngine">
-    <implementation.generic type="isjdbcfunctionalalias" />
+    <dependsOn>IS:JDBCPoolAlias.default</dependsOn>
   </asset>
   <asset name="Broker.DefaultEndPoint" displayName="DefaultEndPoint">
     <implementation.generic type="isbrokersettings" />
@@ -202,31 +217,28 @@
     <implementation.generic type="isurlalias" />
     <dependsOn>IS:ISPackage.WmRoot</dependsOn>
   </asset>
-  <asset name="WSPolicy.SAMLAuthentication.policy" displayName="SAMLAuthentication">
-    <implementation.generic type="iswspolicy" />
-  </asset>
   <asset name="WSPolicy.Addressing.policy" displayName="Addressing">
-    <implementation.generic type="iswspolicy" />
-  </asset>
-  <asset name="WSPolicy.SAMLAuthentication_Encryption.policy" displayName="SAMLAuthentication_Encryption">
-    <implementation.generic type="iswspolicy" />
-  </asset>
-  <asset name="WSPolicy.X509Authentication_Signature.policy" displayName="X509Authentication_Signature">
     <implementation.generic type="iswspolicy" />
   </asset>
   <asset name="WSPolicy.Addressing_Submission.policy" displayName="Addressing_Submission">
     <implementation.generic type="iswspolicy" />
   </asset>
-  <asset name="WSPolicy.Username_Signature.policy" displayName="Username_Signature">
+  <asset name="WSPolicy.KerberosAuthentication.policy" displayName="KerberosAuthentication">
     <implementation.generic type="iswspolicy" />
   </asset>
-  <asset name="WSPolicy.X509Authentication.policy" displayName="X509Authentication">
+  <asset name="WSPolicy.ReliableMessaging.policy" displayName="ReliableMessaging">
+    <implementation.generic type="iswspolicy" />
+  </asset>
+  <asset name="WSPolicy.SAMLAuthentication.policy" displayName="SAMLAuthentication">
+    <implementation.generic type="iswspolicy" />
+  </asset>
+  <asset name="WSPolicy.SAMLAuthentication_Encryption.policy" displayName="SAMLAuthentication_Encryption">
+    <implementation.generic type="iswspolicy" />
+  </asset>
+  <asset name="WSPolicy.SAMLAuthentication_Signature.policy" displayName="SAMLAuthentication_Signature">
     <implementation.generic type="iswspolicy" />
   </asset>
   <asset name="WSPolicy.SAMLAuthentication_Signature_Encryption.policy" displayName="SAMLAuthentication_Signature_Encryption">
-    <implementation.generic type="iswspolicy" />
-  </asset>
-  <asset name="WSPolicy.Username_Signature_Encryption.policy" displayName="Username_Signature_Encryption">
     <implementation.generic type="iswspolicy" />
   </asset>
   <asset name="WSPolicy.Username_Encryption.policy" displayName="Username_Encryption">
@@ -235,16 +247,19 @@
   <asset name="WSPolicy.Username_Over_Transport.policy" displayName="Username_Over_Transport">
     <implementation.generic type="iswspolicy" />
   </asset>
-  <asset name="WSPolicy.ReliableMessaging.policy" displayName="ReliableMessaging">
+  <asset name="WSPolicy.Username_Signature.policy" displayName="Username_Signature">
+    <implementation.generic type="iswspolicy" />
+  </asset>
+  <asset name="WSPolicy.Username_Signature_Encryption.policy" displayName="Username_Signature_Encryption">
+    <implementation.generic type="iswspolicy" />
+  </asset>
+  <asset name="WSPolicy.X509Authentication.policy" displayName="X509Authentication">
     <implementation.generic type="iswspolicy" />
   </asset>
   <asset name="WSPolicy.X509Authentication_Encryption.policy" displayName="X509Authentication_Encryption">
     <implementation.generic type="iswspolicy" />
   </asset>
-  <asset name="WSPolicy.KerberosAuthentication.policy" displayName="KerberosAuthentication">
-    <implementation.generic type="iswspolicy" />
-  </asset>
-  <asset name="WSPolicy.SAMLAuthentication_Signature.policy" displayName="SAMLAuthentication_Signature">
+  <asset name="WSPolicy.X509Authentication_Signature.policy" displayName="X509Authentication_Signature">
     <implementation.generic type="iswspolicy" />
   </asset>
   <asset name="WSPolicy.X509Authentication_Signature_Encryption.policy" displayName="X509Authentication_Signature_Encryption">

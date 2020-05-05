@@ -40,8 +40,8 @@ sleep 10
 echo "Uploading configuration assets - start"
 export JAVA_HOME=/opt/softwareag/jvm/jvm
 export PATH=$JAVA_HOME/bin:$PATH
-java -classpath '/src/data/wm-deploy.jar:/opt/softwareag/common/lib/*:/opt/softwareag/IntegrationServer/lib/*:/opt/softwareag/common/lib/glassfish/*' com.softwareag.deployer.ConfigurationProvisioner /src/data/configassets/isconfiguration.acdl /src/data/configassets/isconfiguration.zip 5555
+java -classpath '/src/data/wm-deploy.jar:/opt/softwareag/common/lib/*:/opt/softwareag/IntegrationServer/lib/*:/opt/softwareag/common/lib/glassfish/*' com.softwareag.deployer.ConfigurationProvisioner /src/data/AssetConfigurations/isconfiguration.acdl /src/data/AssetConfigurations/isconfiguration.zip 5555
 echo "Uploading configuration assets - end"
 
 echo "Stopping Integration Server"
-echo "$SAG_HOME/IntegrationServer/bin/shutdown.sh"
+/opt/softwareag/IntegrationServer/bin/shutdown.sh
