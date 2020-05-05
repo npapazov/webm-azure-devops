@@ -34,7 +34,7 @@ files:
   init.sh: "/tmp"
   application.properties: "/opt/softwareag/IntegrationServer"
 
-
+createAzLB: true
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
