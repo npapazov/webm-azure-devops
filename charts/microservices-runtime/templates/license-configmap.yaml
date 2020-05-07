@@ -1,4 +1,4 @@
-{{- if .Values.licenseFile }}
+{{- if .Values.externalFiles.licenseFile }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,5 +6,5 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   licenseKey.xml: |-
-{{ .Values.licenseFile | indent 4 }}
+{{ .Values.externalFiles.licenseFile | indent 4 }}
 {{ end }}
