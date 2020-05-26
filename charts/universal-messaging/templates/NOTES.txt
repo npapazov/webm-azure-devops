@@ -7,3 +7,11 @@
 2. you can connect to application console:
   export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "universal-messaging.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
   kubectl --namespace {{ .Release.Namespace }} exec -it $POD_NAME bash
+3. Get the application URL within kubernetes cluster depending on replicaCount value: {{ .Values.replicaCount }}
+{{- $values := .Values }}
+{{- $release := .Release }}
+{{- $chart := .Chart }}
+{{- range $index := untilStep 0  ( int .Values.replicaCount )   1 }}
+nsp://{{ $release.Name }}-universal-messaging-{{ $index }}.{{ $release.Name }}-universal-messaging:{{ $values.service.port }}
+{{- end }}
+
