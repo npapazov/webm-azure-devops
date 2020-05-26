@@ -10,8 +10,8 @@ image:
 
 imagePullSecret: "regcreds"
 imageCredentials.registry: "https://index.docker.io/v1/"
-imageCredentials.username: ""
-imageCredentials.password: ""
+imageCredentials.username: "xx"
+imageCredentials.password: "xx"
 
 externalFiles:
   licenseFile: ""
