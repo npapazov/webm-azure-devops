@@ -1,13 +1,13 @@
 # webm-azure-devops
 starting point for testing POC on webm on azure
 
-how to add repository to local helm
+how to add SAG repository to local helm
 
 ```
 helm repo add sag-repo https://npapazov.github.io/webm-azure-devops/chart-repo
 ```
 
-how to search for sag helm charts
+how to search for SAG helm charts
 
 ```
 helm search repo universal-messaging
