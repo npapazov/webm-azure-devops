@@ -13,5 +13,5 @@ data:
 {{ .Values.externalFiles.configFile | indent 4 }}
 {{ end }}
   externalFilesLocations: |-
-    licence.xml /opt/softwareag/UniversalMessaging/server/umserver/licence/
+    licence.xml /opt/softwareag/common/conf/.persistent/licence.xml
     config.xml /tmp/
