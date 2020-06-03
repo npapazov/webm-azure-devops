@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: store/softwareag/universalmessaging-server
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecret: "regcreds"
 imageCredentials.registry: "https://index.docker.io/v1/"

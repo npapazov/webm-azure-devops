@@ -5,7 +5,11 @@ metadata:
   labels:
     {{- include "microservices-runtime.labels" . | nindent 4 }}
 spec:
+   {{- if Values.global.MSRReplicaCount }}
+  replicas: {{ Values.global.MSRReplicaCount }}
+   {{- else }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "microservices-runtime.selectorLabels" . | nindent 6 }}
@@ -83,6 +87,12 @@ spec:
           - name: {{ $key }}
             value: {{ $val }}   
           {{- end }}
+          {{- end }}
+          {{- if .Values.global.solutionName }}
+          {{ $releaseName := .Release.Name }}
+          - name: MSR_JNDI_PROVIDER_URL
+             
+            value: {{- range $index := untilStep 0 (int (sub .Values.global.UMReplicaCount 1) ) 1 -}}$releaseName-univeral-messaging-$index{{- end }}
           {{- end }}
       volumes:
       {{- if .Values.externalFiles.licenseFile }}
