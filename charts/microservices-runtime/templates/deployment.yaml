@@ -90,6 +90,8 @@ spec:
           {{- end }}
           {{- if .Values.global.solutionName }}
           {{ $releaseName := .Release.Name }}
+          # overwrite  MSR_JNDI_PROVIDER_URL
+          # um replicas {{- .Values.global.UMReplicaCount }}
           - name: MSR_JNDI_PROVIDER_URL
              
             value: {{- range $index := untilStep 0 (int (sub .Values.global.UMReplicaCount 1) ) 1 -}}$releaseName-univeral-messaging-$index{{- end }}
