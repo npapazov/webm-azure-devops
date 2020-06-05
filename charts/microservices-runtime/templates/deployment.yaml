@@ -88,6 +88,7 @@ spec:
             value: {{ $val }}   
           {{- end }}
           {{- end }}
+          # solutionName= {{- .Values.global.solutionName }}
           {{- if .Values.global.solutionName }}
           {{ $releaseName := .Release.Name }}
           # overwrite  MSR_JNDI_PROVIDER_URL
