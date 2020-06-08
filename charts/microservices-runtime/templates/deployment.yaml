@@ -95,7 +95,7 @@ spec:
           # overwrite  MSR_JNDI_PROVIDER_URL
           # um replicas {{- .Values.global.UMReplicaCount }}
           - name: MSR_JNDI_PROVIDER_URL
-            value: {{- include "getUMURLs" . | trimSuffix "," -}}
+            value: "{{- include "getUMURLs" . | trimSuffix "," -}}"
              
           {{- end }}
       volumes:
