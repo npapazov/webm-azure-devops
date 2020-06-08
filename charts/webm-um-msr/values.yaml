@@ -30,3 +30,5 @@ global:
   solutionName: is-um
   UMReplicaCount: 5
   MSRReplicaCount: 4
+  UMServicePort: 9000
+  ISServicePort: 5555
