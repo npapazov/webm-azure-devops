@@ -14,7 +14,7 @@ If release name contains chart name it will be used as a full name.
 {{- define "getUMURLs" -}}
 {{- $values := .Values -}}
 {{- $releaseName := .Release.Name -}}
-{{- range $index := untilStep 0 (int (sub .Values.global.UMReplicaCount 1) ) 1 -}}
+{{- range $index := untilStep 0 (int  .Values.global.UMReplicaCount  ) 1 -}}
 nsp://{{$releaseName}}-univeral-messaging-{{$index}}:{{ $values.service.port }},
 {{- end -}}
 
