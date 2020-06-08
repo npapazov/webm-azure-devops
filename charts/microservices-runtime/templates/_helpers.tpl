@@ -15,7 +15,7 @@ If release name contains chart name it will be used as a full name.
 {{- $values := .Values -}}
 {{- $releaseName := .Release.Name -}}
 {{- range $index := untilStep 0 (int  .Values.global.UMReplicaCount  ) 1 -}}
-nsp://{{$releaseName}}-univeral-messaging-{{$index}}:{{ $values.service.port }},
+nsp://{{$releaseName}}-universal-messaging-{{$index}}.{{$releaseName}}-universal-messaging:{{ $values.global.UMServicePort }},
 {{- end -}}
 
 {{- end -}}
