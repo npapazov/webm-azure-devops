@@ -3,9 +3,9 @@ entries:
   microservices-runtime:
   - apiVersion: v2
     appVersion: 10.5.0.0
-    created: "2020-06-08T09:21:46.4015076+03:00"
+    created: "2020-06-08T10:12:40.4004746+03:00"
     description: A Helm chart for Kubernetes
-    digest: e782fc466089500ea42be4b2b13974acc5bed2d4a7aae1ce0192aae859f68522
+    digest: 64f48044b39ee3b916b03c169badbb090df14587d6abbfbc1afeb915e54ecbc5
     name: microservices-runtime
     type: application
     urls:
@@ -14,12 +14,12 @@ entries:
   universal-messaging:
   - apiVersion: v2
     appVersion: 10.5.0.4
-    created: "2020-06-08T09:21:46.4025368+03:00"
+    created: "2020-06-08T10:12:40.4013697+03:00"
     description: A Helm chart for Kubernetes
-    digest: 5589c275ff023ffa3ada88e4f2baeb113dfd45c2c98592f4e5d02377a2000cfa
+    digest: 2b60057d2696473d9423bdc92a3c1b3d131a14e051e23eb53d138daca02a9f72
     name: universal-messaging
     type: application
     urls:
     - https://npapazov.github.io/webm-azure-devops/chart-repo/universal-messaging-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-08T09:21:46.3984663+03:00"
+generated: "2020-06-08T10:12:40.3990546+03:00"

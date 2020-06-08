@@ -23,7 +23,7 @@ metadata:
   labels:
     {{- include "universal-messaging.labels" . | nindent 4 }}
 spec:
-  {{- if .Values.global.UMReplicaCount }}
+  {{- if .Values.solutionName }}
   replicas: {{ .Values.global.UMReplicaCount }}
   {{- else }}
   replicas: {{ .Values.replicaCount }}
