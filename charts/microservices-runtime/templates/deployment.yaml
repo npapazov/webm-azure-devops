@@ -95,8 +95,8 @@ spec:
           # overwrite  MSR_JNDI_PROVIDER_URL
           # um replicas {{- .Values.global.UMReplicaCount }}
           - name: MSR_JNDI_PROVIDER_URL
+            value: {{- include "getUMURLs" . | trimSuffix "," -}}
              
-            value: xx{{- range $index := untilStep 0 (int (sub .Values.global.UMReplicaCount 1) ) 1 -}}{{$releaseName}}-univeral-messaging-{{$index}},{{- end }}
           {{- end }}
       volumes:
       {{- if .Values.externalFiles.licenseFile }}
