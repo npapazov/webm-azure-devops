@@ -11,6 +11,15 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
+{{- define "getUMURLs" -}}
+{{ $values := .Values }}
+{{- range $index := untilStep 0 (int (sub .Values.global.UMReplicaCount 1) ) 1 -}}
+nsp://{{$releaseName}}-univeral-messaging-{{$index}}:{{ $values.service.port }},
+{{- end }}
+
+{{- end -}}
+
+
 {{- define "microservices-runtime.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
