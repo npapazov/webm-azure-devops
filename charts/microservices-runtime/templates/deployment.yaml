@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "microservices-runtime.labels" . | nindent 4 }}
 spec:
-   {{- if .Values.global.MSRReplicaCount }}
+   {{- if .Values.solutionName }}
   replicas: {{ .Values.global.MSRReplicaCount }}
    {{- else }}
   replicas: {{ .Values.replicaCount }}
@@ -89,14 +89,14 @@ spec:
             value: {{ $val }}   
           {{- end }}
           {{- end }}
-          # solutionName= {{- .Values.global.solutionName }}
-          {{- if .Values.global.solutionName }}
+          # solutionName= {{- .Values.solutionName }}
+          {{- if .Values.solutionName }}
           {{ $releaseName := .Release.Name }}
           # overwrite  MSR_JNDI_PROVIDER_URL
           # um replicas {{- .Values.global.UMReplicaCount }}
           - name: MSR_JNDI_PROVIDER_URL
              
-            value: xx{{- range $index := untilStep 0 (int (sub .Values.global.UMReplicaCount 1) ) 1 -}}$releaseName-univeral-messaging-$index{{- end }}
+            value: xx{{- range $index := untilStep 0 (int (sub .Values.global.UMReplicaCount 1) ) 1 -}}{{$releaseName}}-univeral-messaging-{{$index}},{{- end }}
           {{- end }}
       volumes:
       {{- if .Values.externalFiles.licenseFile }}

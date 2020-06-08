@@ -18,10 +18,12 @@ serviceAccount:
 podSecurityContext: {}
   # fsGroup: 2000
 microservices-runtime: 
+  solutionName: is-um
   envVariables:
-    MSR_JNDI_PROVIDER_URL: {}
+    MSR_JNDI_PROVIDER_URL: ""
 
 universal-messaging:
+  solutionName: is-um
   envVariables:
 
 global:
