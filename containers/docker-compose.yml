@@ -40,26 +40,26 @@ services:
     ports:
       - 5555                            # container specific ports
     environment:
-      - MSR_JDBC_URL=${MSR_JDBC_URL:-"jdbc:mysql://mysql-1:3306/webm"}
-      - MSR_JDBC_PASSWORD=${MSR_JDBC_PASSWORD:-"webm"}
-      - MSR_JDBC_USER=${MSR_JDBC_USER:-"webm"}
-      - MSR_JNDI_PROVIDER_URL=${MSR_JNDI_PROVIDER_URL:-"nsp://universal-messaging-1:9000"}
+      - MSR_JDBC_URL=${MSR_JDBC_URL:-jdbc:mysql://mysql-1:3306/webm}
+      - MSR_JDBC_PASSWORD=${MSR_JDBC_PASSWORD:-webm}
+      - MSR_JDBC_USER=${MSR_JDBC_USER:-webm}
+      - MSR_JNDI_PROVIDER_URL=${MSR_JNDI_PROVIDER_URL:-nsp://universal-messaging-1:9000}
     hostname: microservices-runtime
     depends_on:
       - mysql
       - universal-messaging 
 
   mysql:
-    image: mysql:5.7.24
+    image: mysql:5.7.28
     ports:
       - 3306
     volumes:
       - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
       - ./mysql/webm.sql:/docker-entrypoint-initdb.d/webm.sql
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-"root"}
-      - MYSQL_USER=${MYSQL_USER:-"webm"}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-"webm"}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+      - MYSQL_USER=${MYSQL_USER:-webm}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-webm}
     hostname: mysql
 
         

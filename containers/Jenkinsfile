@@ -9,7 +9,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     environment {
-        COMPOSE_FILE = 'docker-compose.yml'
+        COMPOSE_FILE = 'containers/docker-compose.yml'
     }
     stages {
         stage('Initialize'){
@@ -17,22 +17,27 @@ pipeline {
                 sh 'chmod -R 777 ${WORKSPACE}'
             }
         }
-        stage("Pull") {
+        stage("Clean") {
             steps {
                 sh 'docker-compose down' 
-                sh 'docker-compose pull'
             }
         } 
         stage('Build'){
             steps {
-                sh 'docker-compose build --no-cache microservices-runtime'
-                sh 'MSR_JDBC_URL="jdbc:mysql://mysql:3306/webm" MSR_JDBC_PASSWORD=webm MSR_JDBC_USER=webm MSR_JNDI_PROVIDER_URL="nsp://universal-messaging:9000" docker-compose up microservices-runtime'
+                sh 'docker-compose build --no-cache --force-rm microservices-runtime'
+                sh 'MSR_JDBC_URL="jdbc:mysql://mysql:3306/webm" MSR_JDBC_PASSWORD=webm MSR_JDBC_USER=webm MSR_JNDI_PROVIDER_URL="nsp://universal-messaging:9000" docker-compose up -d microservices-runtime'
+                //sh 'test.sh'
                 }
          }
-	    stage('Deploy'){
+		stage("Publish to DTR") {
             steps {
-                sh 'docker-compose push microservices-runtime'
+                script{
+                   	docker.withRegistry('https://daerepository03.eur.ad.sag:4443', '80a6b3f2-0802-41b2-9baf-d2323fdebad4'){
+                       	sh 'docker-compose push microservices-runtime'
+               		}                  
+                }
             }
         }
+          
     }
 }
