@@ -17,7 +17,6 @@ pipeline {
                 sh 'chmod -R 777 ${WORKSPACE}'
             }
         }
-    stages {
         stage("Pull") {
             steps {
                 sh 'docker-compose down' 
@@ -29,8 +28,8 @@ pipeline {
                 sh 'docker-compose build --no-cache microservices-runtime'
                 sh 'MSR_JDBC_URL="jdbc:mysql://mysql:3306/webm" MSR_JDBC_PASSWORD=webm MSR_JDBC_USER=webm MSR_JNDI_PROVIDER_URL="nsp://universal-messaging:9000" docker-compose up microservices-runtime'
                 }
-        }
-	stage('Deploy'){
+         }
+	    stage('Deploy'){
             steps {
                 sh 'docker-compose push microservices-runtime'
             }
