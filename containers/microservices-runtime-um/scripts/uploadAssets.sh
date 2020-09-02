@@ -36,12 +36,12 @@ done
 # this is our main container process
 echo "Integration Server is ONLINE at http://`hostname`:5555/"
 
-sleep 10
-echo "Uploading configuration assets - start"
-export JAVA_HOME=/opt/softwareag/jvm/jvm
-export PATH=$JAVA_HOME/bin:$PATH
-java -classpath '/src/data/wm-deploy.jar:/opt/softwareag/common/lib/*:/opt/softwareag/IntegrationServer/lib/*:/opt/softwareag/common/lib/glassfish/*' com.softwareag.deployer.ConfigurationProvisioner /src/data/AssetConfigurations/isconfiguration.acdl /src/data/AssetConfigurations/isconfiguration.zip 5555
-echo "Uploading configuration assets - end"
+#sleep 10
+#echo "Uploading configuration assets - start"
+#export JAVA_HOME=/opt/softwareag/jvm/jvm
+#export PATH=$JAVA_HOME/bin:$PATH
+#java -classpath '/src/data/wm-deploy.jar:/opt/softwareag/common/lib/*:/opt/softwareag/IntegrationServer/lib/*:/opt/softwareag/common/lib/glassfish/*' com.softwareag.deployer.ConfigurationProvisioner /src/data/AssetConfigurations/isconfiguration.acdl /src/data/AssetConfigurations/isconfiguration.zip 5555
+#echo "Uploading configuration assets - end"
 
 echo "Stopping Integration Server"
 /opt/softwareag/IntegrationServer/bin/shutdown.sh

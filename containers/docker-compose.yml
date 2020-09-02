@@ -1,0 +1,112 @@
+###############################################################################
+#  Copyright 2013 - 2018 Software AG, Darmstadt, Germany and/or its licensors
+#
+#   SPDX-License-Identifier: Apache-2.0
+#
+#     Licensed under the Apache License, Version 2.0 (the "License");
+#     you may not use this file except in compliance with the License.
+#     You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#     Unless required by applicable law or agreed to in writing, software
+#     distributed under the License is distributed on an "AS IS" BASIS,
+#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#     See the License for the specific language governing permissions and
+#     limitations under the License.                                                            
+#
+###############################################################################
+version: "3.2"
+
+services:
+  universal-messaging:
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcum:${TAG:-10.5}
+    build:
+      context: universal-messaging/
+      args:
+        - PRODUCT_IMAGE=${REG:-store/softwareag}/universalmessaging-server:${UM_TAG:-10.5}
+        - BASE_IMAGE=centos:8
+    ports:
+      - 9000                            # container specific ports
+    hostname: universal-messaging
+
+  microservices-runtime:
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcmsr:${TAG:-10.5} 
+    build:
+      context: microservices-runtime/
+      args:
+        - PRODUCT_IMAGE=dtr.eur.ad.sag:4443/ccdevops/pcmsr:10.5.0.5
+        - BASE_IMAGE=centos:8
+    ports:
+      - 5555                            # container specific ports
+    hostname: microservices-runtime
+    depends_on:
+      - mysql
+      - universal-messaging 
+  
+  microservices-runtime-db:
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcmsr:${TAG:-10.5} 
+    build:
+      context: microservices-runtime-db/
+      args:
+        - PRODUCT_IMAGE=dtr.eur.ad.sag:4443/ccdevops/pcmsr:10.5.0.5
+        - BASE_IMAGE=centos:8
+    ports:
+      - 5555                            # container specific ports
+    environment:
+      - MSR_JDBC_URL=${MSR_JDBC_URL:-jdbc:mysql://mysql-1:3306/webm}
+      - MSR_JDBC_PASSWORD=${MSR_JDBC_PASSWORD:-webm}
+      - MSR_JDBC_USER=${MSR_JDBC_USER:-webm}
+    hostname: microservices-runtime-db
+    depends_on:
+      - mysql
+ 
+  microservices-runtime-db-um:
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcmsr:${TAG:-10.5} 
+    build:
+      context: microservices-runtime-db-um/
+      args:
+        - PRODUCT_IMAGE=dtr.eur.ad.sag:4443/ccdevops/pcmsr:10.5.0.5
+        - BASE_IMAGE=centos:8
+    ports:
+      - 5555                            # container specific ports
+    environment:
+      - MSR_JDBC_URL=${MSR_JDBC_URL:-jdbc:mysql://mysql-1:3306/webm}
+      - MSR_JDBC_PASSWORD=${MSR_JDBC_PASSWORD:-webm}
+      - MSR_JDBC_USER=${MSR_JDBC_USER:-webm}
+      - MSR_JNDI_PROVIDER_URL=${MSR_JNDI_PROVIDER_URL:-nsp://universal-messaging-1:9000}
+    hostname: microservices-runtime-db-um
+    depends_on:
+      - mysql
+      - universal-messaging 
+
+  microservices-runtime-um:
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcmsr:${TAG:-10.5} 
+    build:
+      context: microservices-runtime-um/
+      args:
+        - PRODUCT_IMAGE=dtr.eur.ad.sag:4443/ccdevops/pcmsr:10.5.0.5
+        - BASE_IMAGE=centos:8
+    ports:
+      - 5555                            # container specific ports
+    environment:
+      - MSR_JNDI_PROVIDER_URL=${MSR_JNDI_PROVIDER_URL:-nsp://universal-messaging-1:9000}
+    hostname: microservices-runtime-um
+    depends_on:
+      - universal-messaging 
+
+
+  mysql:
+    image: mysql:5.7.28
+    ports:
+      - 3306
+    volumes:
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./mysql/webm.sql:/docker-entrypoint-initdb.d/webm.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+      - MYSQL_USER=${MYSQL_USER:-webm}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-webm}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-webm}
+    hostname: mysql
+        

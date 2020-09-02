@@ -6,7 +6,13 @@ FROM $PRODUCT_IMAGE as product_image
 COPY --chown=sagadmin ./data/Packages /opt/softwareag/IntegrationServer/packages/
 RUN ls -latr /opt/softwareag/IntegrationServer/packages/
 
-COPY --chown=sagadmin ./data/Configurations /opt/softwareag/IntegrationServer/config/
+COPY --chown=sagadmin ./scripts /src/scripts
+RUN /src/scripts/uploadAssets.sh
+
+#COPY --chown=sagadmin ./data/Configurations /opt/softwareag/IntegrationServer/config/
+#RUN ls -latr /opt/softwareag/IntegrationServer/config/
+
+COPY --chown=sagadmin ./data/License/licenseKey.xml /opt/softwareag/IntegrationServer/config/licenseKey.xml
 RUN ls -latr /opt/softwareag/IntegrationServer/config/
 
 #copy application.properties
@@ -22,6 +28,7 @@ COPY --from=product_image --chown=1724:1724 /opt/softwareag/ /opt/softwareag/
 COPY --chown=sagadmin ./scripts /src/scripts
 ENV JAVA_HOME=/opt/softwareag/jvm/jvm
 ENV PATH=$JAVA_HOME/bin:$PATH
+ENV JAVA_DEBUGGER_OPTS=-Dcom.softwareag.um.jndi.cf.url.override=true
 
-
+USER sagadmin
 ENTRYPOINT /src/scripts/Entrypoint.sh

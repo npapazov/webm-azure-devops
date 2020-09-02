@@ -6,6 +6,10 @@ FROM $PRODUCT_IMAGE as product_image
 COPY --chown=sagadmin ./data/Packages /opt/softwareag/IntegrationServer/packages/
 RUN ls -latr /opt/softwareag/IntegrationServer/packages/
 
+# copy libraries jars 
+COPY --chown=sagadmin ./data/Libraries /opt/softwareag/IntegrationServer/lib/jars/
+RUN ls -latr /opt/softwareag/IntegrationServer/lib/jars/
+
 COPY --chown=sagadmin ./data/Configurations /opt/softwareag/IntegrationServer/config/
 RUN ls -latr /opt/softwareag/IntegrationServer/config/
 

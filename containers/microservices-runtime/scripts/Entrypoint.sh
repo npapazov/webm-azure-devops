@@ -1,6 +1,6 @@
 #!/bin/sh
 #*******************************************************************************
-#  Copyright 2013 - 2018 Software AG, Darmstadt, Germany and/or its licensors
+#  Copyright © 2013 - 2018 Software AG, Darmstadt, Germany and/or its licensors
 #
 #   SPDX-License-Identifier: Apache-2.0
 #
@@ -17,8 +17,6 @@
 #     limitations under the License.                                                            
 #
 #*******************************************************************************
-set -e
-
 echo "/opt/softwareag/IntegrationServer/bin/startup.sh"
 /opt/softwareag/IntegrationServer/bin/startup.sh
 # wait until IS server.log comes up
@@ -34,14 +32,7 @@ do
 done
 
 # this is our main container process
+
 echo "Integration Server is ONLINE at http://`hostname`:5555/"
 
-sleep 10
-echo "Uploading configuration assets - start"
-export JAVA_HOME=/opt/softwareag/jvm/jvm
-export PATH=$JAVA_HOME/bin:$PATH
-java -classpath '/src/data/wm-deploy.jar:/opt/softwareag/common/lib/*:/opt/softwareag/IntegrationServer/lib/*:/opt/softwareag/common/lib/glassfish/*' com.softwareag.deployer.ConfigurationProvisioner /src/data/AssetConfigurations/isconfiguration.acdl /src/data/AssetConfigurations/isconfiguration.zip 5555
-echo "Uploading configuration assets - end"
-
-echo "Stopping Integration Server"
-/opt/softwareag/IntegrationServer/bin/shutdown.sh
+tail -f /opt/softwareag/IntegrationServer/logs/server.log
