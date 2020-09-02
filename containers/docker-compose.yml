@@ -20,7 +20,7 @@ version: "3.2"
 
 services:
   universal-messaging:
-    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcum:${TAG:-10.5}
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/universalmessaging-server:${TAG:-10.5}
     build:
       context: universal-messaging/
       args:
@@ -31,11 +31,11 @@ services:
     hostname: universal-messaging
 
   microservices-runtime:
-    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcmsr:${TAG:-10.5} 
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/microservices-runtime:${TAG:-10.5} 
     build:
       context: microservices-runtime/
       args:
-        - PRODUCT_IMAGE=dtr.eur.ad.sag:4443/ccdevops/pcmsr:10.5.0.5
+        - PRODUCT_IMAGE=${REG:-store/softwareag}/webmethods-microservicesruntime:${MSR_TAG:-10.5}
         - BASE_IMAGE=centos:8
     ports:
       - 5555                            # container specific ports
@@ -45,11 +45,11 @@ services:
       - universal-messaging 
   
   microservices-runtime-db:
-    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcmsr:${TAG:-10.5} 
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/microservices-runtime-db:${TAG:-10.5} 
     build:
       context: microservices-runtime-db/
       args:
-        - PRODUCT_IMAGE=dtr.eur.ad.sag:4443/ccdevops/pcmsr:10.5.0.5
+        - PRODUCT_IMAGE=${REG:-store/softwareag}/webmethods-microservicesruntime:${MSR_TAG:-10.5}
         - BASE_IMAGE=centos:8
     ports:
       - 5555                            # container specific ports
@@ -62,11 +62,11 @@ services:
       - mysql
  
   microservices-runtime-db-um:
-    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcmsr:${TAG:-10.5} 
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/microservices-runtime-db-um:${TAG:-10.5} 
     build:
       context: microservices-runtime-db-um/
       args:
-        - PRODUCT_IMAGE=dtr.eur.ad.sag:4443/ccdevops/pcmsr:10.5.0.5
+        - PRODUCT_IMAGE=${REG:-store/softwareag}/webmethods-microservicesruntime:${MSR_TAG:-10.5}
         - BASE_IMAGE=centos:8
     ports:
       - 5555                            # container specific ports
@@ -81,11 +81,11 @@ services:
       - universal-messaging 
 
   microservices-runtime-um:
-    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/pcmsr:${TAG:-10.5} 
+    image: ${LOCAL_REG:-daerepository03.eur.ad.sag:4443/ccdevops}/microservices-runtime-um:${TAG:-10.5} 
     build:
       context: microservices-runtime-um/
       args:
-        - PRODUCT_IMAGE=dtr.eur.ad.sag:4443/ccdevops/pcmsr:10.5.0.5
+        - PRODUCT_IMAGE=${REG:-store/softwareag}/webmethods-microservicesruntime:${MSR_TAG:-10.5}
         - BASE_IMAGE=centos:8
     ports:
       - 5555                            # container specific ports

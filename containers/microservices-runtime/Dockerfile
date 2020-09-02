@@ -2,6 +2,9 @@ ARG PRODUCT_IMAGE
 ARG BASE_IMAGE
 
 FROM $PRODUCT_IMAGE as product_image
+USER root
+RUN apk add curl
+USER 1724
 #copy packages
 COPY --chown=sagadmin ./data/Packages /opt/softwareag/IntegrationServer/packages/
 RUN ls -latr /opt/softwareag/IntegrationServer/packages/
