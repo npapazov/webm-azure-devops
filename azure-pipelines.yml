@@ -25,6 +25,7 @@ steps:
 
   displayName: 'build images'
 - script: |
+    set -x
     docker login letswebmacr.azurecr.io -u 00000000-0000-0000-0000-000000000000 -p $AZURECR_ACCESS_TOKEN
     export TAG=10.5
     export UM_TAG=10.5
@@ -32,3 +33,4 @@ steps:
     export LOCAL_REG=letswebmacr.azurecr.io/ccdevops
     docker-compose push
   displayName: 'Push images'
+
