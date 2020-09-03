@@ -12,6 +12,7 @@ steps:
   displayName: 'Run a one-line script'
 
 - script: |
+    bash -x
     env
     docker login -u bpas -p $DOCKERSTORE_ACCESS_TOKEN
     cd containers
