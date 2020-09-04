@@ -12,8 +12,8 @@ steps:
   displayName: 'Run a one-line script'
 
 - script: |
-    bash -x
     env
+    echo dockerstore env is $DOCKERSTORE_ACCESS_TOKEN
     docker login -u bpas -p $DOCKERSTORE_ACCESS_TOKEN
     cd containers
     export TAG=10.5
